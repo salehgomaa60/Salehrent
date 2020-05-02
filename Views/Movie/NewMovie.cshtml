@@ -1,0 +1,51 @@
+﻿@model Vidly.ViewModels.SaveMovieVm
+
+@{
+    ViewBag.Title = "NewMovie";
+    
+}
+
+<h2> @Model.title</h2>
+
+
+@using (Html.BeginForm("NewMovie", "Movie", new { enctype= "multipart/form-data"}))
+{
+    @Html.ValidationSummary(true, "Please Fix The Following Errors ")
+    <div class="form-group">
+    @Html.LabelFor(m => m.movie.Name)
+    @Html.TextBoxFor(m => m.movie.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.movie.NumberInStock)
+        @Html.TextBoxFor(m => m.movie.NumberInStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.movie.NumberInStock)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.movie.ReleaseDate)
+        @Html.TextBoxFor(m => m.movie.ReleaseDate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.movie.ReleaseDate)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.movie.MovieImage, htmlAttributes: new { @class = "control-label " })
+        <input type="file" name="file" id="file" />
+        @Html.ValidationMessageFor(m => m.movie.MovieImage, "", new { @class = "text-danger" })
+    </div>
+    
+
+    <div class="form-group">
+       <label >Genre</label>
+        @Html.DropDownListFor(m => m.movie.GenreId, new SelectList(Model.Genre, "Id", "Name"), "Select GenreType", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.movie.GenreId)
+    </div>
+    @Html.HiddenFor(m => m.movie.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit"class="btn btn-dark">
+        Save
+    </button>
+    @section scripts{
+        @Scripts.Render("~/bundles/jqueryval")
+        }
+    
+}
+
